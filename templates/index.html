@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drowsiness Detection</title>
+    <style>
+        * {
+            background-color: black;
+        }
+
+        .box1 {
+            margin-right: 20px;
+            
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-size: cover;
+            font-family: 'Arial', sans-serif;
+            color: #fff;
+            text-align: center;
+        }
+
+        h1 {
+            margin-top: 30px;
+            font-size: 70px;
+            margin-bottom: 20px;
+        }
+
+        img {
+            margin-top: 20px;
+            width: 200px; /* Adjust the width as needed */
+            height: auto; /* Maintain aspect ratio */
+        }
+
+        button {
+            margin-top: 30px;
+            margin-bottom: 20px;
+            padding: 15px 30px;
+            font-size: 25px;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        p{
+            color: #45a049;
+            font-size: 25px;
+            font-weight: bold;
+        }
+
+        .tenor-gif-embed{
+            margin-left: 300px;
+            margin-bottom: -30px;
+            clip-path: inset(5% 0 15% 0)
+            
+        }
+
+
+    </style>
+</head>
+<body>
+    <h1>Drowsiness Detection</h1>
+    <p>Stay Awake, Stay Alive: Let Our Model Be Your Guardian on the Road!</p>
+    <div class="tenor-gif-embed" data-postid="22960854" data-share-method="host" data-aspect-ratio="2.03822" data-width="60%"><a href="https://tenor.com/view/face-gif-22960854">Face GIF</a>from <a href="https://tenor.com/search/face-gifs">Face GIFs</a></div> <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
+    <button class="box1" onclick="runDetection()">Start Drowsiness Detection</button>
+    <button class="box2" onclick="stopDetection()">Stop Drowsiness Detection</button>
+
+    <script>
+        function runDetection() {
+            fetch('/run_detection')
+                .then(response => response.text())
+                .then(message => alert(message));
+        }
+    </script>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.2/socket.io.js"></script>
+    <script>
+        var socket = io.connect('http://' + document.domain + ':' + location.port);
+
+        function runDetection() {
+            socket.emit('start_detection');
+        }
+
+        socket.on('detection_started', function(data) {
+            alert(data.message);
+        });
+    </script>
+    <script>
+        var socket = io.connect('http://' + document.domain + ':' + location.port);
+
+        function runDetection() {
+            socket.emit('start_detection');
+        }
+
+        function stopDetection() {
+            socket.emit('stop_detection');
+        }
+
+        socket.on('detection_started', function(data) {
+            alert(data.message);
+        });
+
+        socket.on('detection_stopped', function(data) {
+            alert(data.message);
+        });
+    </script>
+</body>
+</html>
